@@ -1,0 +1,26 @@
+# Ignore data files (usually large, no need in Git)
+*.csv
+*.parquet
+data/
+
+# Ignore environment variable files (API keys, secrets)
+.env
+*.env
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore virtual environments
+venv/
+.env/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log

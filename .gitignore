@@ -2,6 +2,7 @@
 *.csv
 *.parquet
 data/
+*data*/
 
 # Ignore environment variable files (API keys, secrets)
 .env

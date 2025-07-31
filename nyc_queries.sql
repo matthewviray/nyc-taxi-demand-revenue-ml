@@ -11,11 +11,6 @@ WHERE pickup_date IS NULL;
 
 DESCRIBE nyc_taxi.nyc_weather;
 
-
-  
-SET SESSION wait_timeout = 300;
-SET SESSION interactive_timeout = 300;
-SET SESSION max_execution_time = 0;
   
 CREATE TABLE nyc_taxi.taxi_weather_prejoined AS
 SELECT yellow.*,
@@ -136,7 +131,7 @@ GROUP BY Trip_duration
 ORDER BY Trip_duration;
 
 #TRIP DURATION SUMMARY STATS
-#Trip duration is skewed so it'll be cleaned in python
+#Trip duration is skewed so it will be cleaned in python
 SELECT AVG(Trip_duration), MAX(Trip_Duration), MIN(Trip_duration)
 FROM nyc_taxi.yellow_taxi_clean;
 
@@ -149,8 +144,25 @@ SELECT day_case, COUNT(*) AS Trip_count, AVG(fare_amount), AVG(Trip_duration) FR
 GROUP BY day_case;
 
 #Trips PER WEEKDAY VS WEEK BY BOROUGH
-SELECT day_case, pickup_zone, COUNT(*) AS Trip_count, AVG(fare_amount), AVG(Trip_duration) FROM (SELECT *, CASE WHEN DAYOFWEEK(pickup_date) BETWEEN  2 and 6 THEN 'Weekday' ELSE 'Weekend' END AS day_case FROM nyc_taxi.yellow_taxi_clean) AS mini
-GROUP BY pickup_zone,day_case
+SELECT 
+  pickup_zone,
+  
+  -- Total trip counts
+  COUNT(*) AS Trip_count,
+  -- Trip counts
+  COUNT(CASE WHEN DAYOFWEEK(pickup_date) BETWEEN 2 AND 6 THEN 1 END) AS Trip_count_Weekday,
+  COUNT(CASE WHEN DAYOFWEEK(pickup_date) NOT BETWEEN 2 AND 6 THEN 1 END) AS Trip_count_Weekend,
+  
+  -- Average fare amounts
+  AVG(CASE WHEN DAYOFWEEK(pickup_date) BETWEEN 2 AND 6 THEN fare_amount END) AS Avg_fare_Weekday,
+  AVG(CASE WHEN DAYOFWEEK(pickup_date) NOT BETWEEN 2 AND 6 THEN fare_amount END) AS Avg_fare_Weekend,
+  
+  -- Average trip duration
+  AVG(CASE WHEN DAYOFWEEK(pickup_date) BETWEEN 2 AND 6 THEN Trip_duration END) AS Avg_duration_Weekday,
+  AVG(CASE WHEN DAYOFWEEK(pickup_date) NOT BETWEEN 2 AND 6 THEN Trip_duration END) AS Avg_duration_Weekend
+
+FROM nyc_taxi.yellow_taxi_clean
+GROUP BY pickup_zone
 ORDER BY pickup_zone;
 
 #Top zone, boroughs, pickup_service_zone
@@ -190,5 +202,5 @@ FROM (SELECT *, HOUR(tpep_pickup_datetime) as hour_of_day, CASE WHEN DAYOFWEEK(p
 GROUP BY pickup_date, hour_of_day, pickup_zone, conditions, day_case
 ORDER BY pickup_date, hour_of_day, pickup_zone;
 
-SHOW VARIABLES LIKE 'datadir';
+
 

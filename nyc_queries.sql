@@ -165,6 +165,15 @@ FROM nyc_taxi.yellow_taxi_clean
 GROUP BY pickup_zone
 ORDER BY pickup_zone;
 
+# temp vs Ride count/Fare sum avg at hours with no rush/commute and late night
+SELECT temp, hour_taxi, AVG(count_of_rides), AVG(fare_sum) as avg_fair_sum
+FROM (SELECT pickup_date, HOUR(tpep_pickup_datetime) as hour_taxi, ROUND(temp) as temp, COUNT(*) as count_of_rides, SUM(fare_amount) AS fare_sum FROM nyc_taxi.yellow_taxi_clean GROUP BY pickup_date , HOUR(tpep_pickup_datetime), ROUND(temp)) AS temp_by_hour
+WHERE hour_taxi IN (10,14,20)
+GROUP BY temp,hour_taxi
+ORDER BY temp, hour_taxi;
+
+
+
 #Top zone, boroughs, pickup_service_zone
 
 SELECT pickup_zone, SUM(fare_amount)
@@ -193,14 +202,31 @@ SELECT hour_per_day,AVG(fare_amount), COUNT(hour_per_day) FROM (SELECT *, HOUR(t
 GROUP BY hour_per_day;
 
 # each condition showing average fare amount and count of rides
-SELECT conditions, AVG(fare_amount),COUNT(conditions) FROM nyc_taxi.yellow_taxi_clean GROUP BY conditions;
+SELECT conditions, AVG(ride_count) FROM (SELECT pickup_date , HOUR(tpep_pickup_datetime) as hour_of_day, conditions, COUNT(*) AS ride_count FROM nyc_taxi.yellow_taxi_clean GROUP BY pickup_date , HOUR(tpep_pickup_datetime),conditions) AS hour_taxi
+GROUP BY conditions;
+
+#condition percentage
+SELECT conditions, 100 * COUNT(*)/SUM(COUNT(*)) OVER() as Proportion_of_condition_count
+FROM nyc_taxi.yellow_taxi_clean
+GROUP BY conditions;
+
+
 
 
 # machine learning query  
-SELECT  pickup_date, hour_of_day, pickup_zone, conditions, day_case, COUNT(*) as ride_count
-FROM (SELECT *, HOUR(tpep_pickup_datetime) as hour_of_day, CASE WHEN DAYOFWEEK(pickup_date) BETWEEN  2 and 6 THEN 'Weekday' ELSE 'Weekend' END AS day_case FROM nyc_taxi.yellow_taxi_clean) AS hour_taxi
-GROUP BY pickup_date, hour_of_day, pickup_zone, conditions, day_case
-ORDER BY pickup_date, hour_of_day, pickup_zone;
+SELECT   DAYOFWEEK(pickup_date) as Day , HOUR(tpep_pickup_datetime) as hour_of_day,  CASE WHEN DAYOFWEEK(pickup_date) BETWEEN  2 and 6 THEN 0 ELSE 1 END AS is_weekend ,PULocationID, temp, 
+	CASE WHEN LOWER(conditions) LIKE '%rain%' THEN 1 ELSE 0 END AS is_rain,
+	CASE WHEN LOWER(conditions) LIKE '%overcast%' THEN 1 ELSE 0 END AS is_overcast,
+	CASE WHEN LOWER(conditions) LIKE '%partially cloudy%' THEN 1 ELSE 0 END AS is_partially_cloudy,
+	CASE WHEN LOWER(conditions) LIKE '%clear%' THEN 1 ELSE 0 END AS is_clear,
+    COUNT(*) as ride_count
+FROM  nyc_taxi.yellow_taxi_clean
+GROUP BY  DAYOFWEEK(pickup_date), HOUR(tpep_pickup_datetime), PULocationID, LOWER(conditions), temp, CASE WHEN DAYOFWEEK(pickup_date) BETWEEN 2 and 6 THEN 0 ELSE 1 END,
+	CASE WHEN LOWER(conditions) LIKE '%rain%' THEN 1 ELSE 0 END,
+	CASE WHEN LOWER(conditions) LIKE '%overcast%' THEN 1 ELSE 0 END,
+	CASE WHEN LOWER(conditions) LIKE '%partially cloudy%' THEN 1 ELSE 0 END,
+	CASE WHEN LOWER(conditions) LIKE '%clear%' THEN 1 ELSE 0 END
+ORDER BY  DAYOFWEEK(pickup_date), hour_of_day, PULocationID;
 
 
 

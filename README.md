@@ -192,9 +192,9 @@ This ETL process ensures a **high-quality dataset** with realistic and reliable 
 - Users can input features such as **day, hour of day, pickup location, temperature, precipitation, windspeed, and cloudcover**.  
 - The app uses the **tuned XGBoost model** to predict the expected **ride count**.  
 - This deployment demonstrates how machine learning models can be integrated into a simple, user-facing product for real-time predictions.  
-- Run the app locally with:  
 
-```bash
-streamlit run app.py
+The application is deployed using **Streamlit Cloud**.  
+You can access the live app here: [NYC Taxi Count Predictor](https://nyc-taxi-count-predictor.streamlit.app/)
+
 
   

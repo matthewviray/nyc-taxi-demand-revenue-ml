@@ -25,3 +25,7 @@ Thumbs.db
 
 # Ignore logs
 *.log
+
+#Ignore DS_Store
+.DS_Store
+

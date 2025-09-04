@@ -1,8 +1,8 @@
 # Ignore data files (usually large, no need in Git)
-*.csv
 *.parquet
 data/
 *data*/
+*NY*
 
 # Ignore environment variable files (API keys, secrets)
 .env

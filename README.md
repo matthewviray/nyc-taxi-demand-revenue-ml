@@ -12,6 +12,24 @@ This project explores **New York City Yellow Taxi trip data** alongside **NYC we
 
 ## 🎯 Project Goal
 Leverage NYC taxi and weather data to uncover actionable insights on ride demand and revenue patterns, and to build predictive models that support data-driven decision making.
+## 📊 Data Sources  
+
+This project integrates multiple datasets to analyze NYC taxi demand and revenue:  
+
+- **NYC Taxi & Limousine Commission (TLC) Trip Records**  
+  - [NYC TLC Trip Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)  
+  - Dataset includes trip-level details such as pickup and dropoff timestamps, zones, fares, tips, passenger counts, and trip distances.  
+  - **Subset used**: Yellow taxi trips for **March and April 2024**.  
+
+- **NYC Taxi Zone Lookup**  
+  - [Taxi Zone Lookup Table](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)  
+  - Provides mappings between taxi zone IDs and their corresponding NYC boroughs and neighborhood names.  
+
+- **Weather Data**  
+  - [Visual Crossing Weather Data](https://www.visualcrossing.com/weather-query-builder/)  
+  - Hourly weather observations for New York City, including precipitation, temperature, and conditions.  
+  - Used to evaluate how weather patterns impact taxi demand and revenue.  
+
 
 ## 🛠 Tools & Technologies  
 

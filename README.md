@@ -12,6 +12,28 @@ This project explores **New York City Yellow Taxi trip data** alongside **NYC we
 
 ## 🎯 Project Goal
 Leverage NYC taxi and weather data to uncover actionable insights on ride demand and revenue patterns, and to build predictive models that support data-driven decision making.
+## Why Understanding Taxi Demand and Revenue Matters  
+
+### Taxi Demand  
+Analyzing demand helps identify **when and where riders need taxis most**. By forecasting trip volume across different times and locations, operators can:  
+- Reposition taxis to reduce passenger wait times  
+- Improve fleet utilization by matching supply with demand  
+- Support city planning by highlighting mobility patterns  
+- Anticipate surges during events, weather changes, or rush hours  
+
+In short, demand analysis helps ensure that taxis are available at the right place and time, improving both customer satisfaction and operational efficiency.  
+
+### Taxi Revenue  
+Understanding revenue patterns provides insight into the **financial performance of the taxi industry**. By studying revenue distribution across time, locations, and trip types, we can:  
+- Identify the most profitable routes, times, and neighborhoods  
+- Support drivers in maximizing earnings by adjusting their driving strategies  
+- Help policymakers evaluate the health of the taxi industry  
+- Compare revenue trends against demand to uncover inefficiencies (e.g., high demand but low revenue due to short trips)  
+
+Revenue analysis complements demand forecasting by showing not just where taxis are needed, but also where driving is most financially sustainable.  
+### Predictive Model  
+Using the cleaned NYC taxi data and key features that impact demand, we built a predictive model to **forecast future taxi demand**. This helps identify peak times and locations, enabling better resource allocation and more efficient taxi operations.  
+
 ## 📊 Data Sources  
 
 This project integrates multiple datasets to analyze NYC taxi demand and revenue:  

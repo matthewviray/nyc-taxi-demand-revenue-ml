@@ -4,7 +4,7 @@ This project explores **New York City Yellow Taxi trip data** alongside **NYC we
 > Note: Only two months of data are used due to the large dataset size and computational constraints, while still capturing meaningful patterns for analysis and machine learning.
 ## 🔹 Key Components
 
-- **ETL:** Clean and transform millions of taxi trip records using **SQL and Python**  
+- **Data Cleaning and Transformation:** Cleaned and transform millions of taxi trip records using **SQL and Python**  
 - **Exploratory Data Analysis (EDA):** Identify demand and revenue drivers with **SQL queries and Python visualizations**  
 - **Visualization:** Create interactive dashboards in **Tableau**  
 - **Machine Learning:** Predict taxi demand using **Linear Regression**, **Random Forest**, and **XGBoost**  
@@ -63,6 +63,26 @@ This project integrates multiple datasets to analyze NYC taxi demand and revenue
     - **Linear Regression** – to model baseline trends and relationships  
 - **Tableau** – for creating interactive dashboards and visualizations of demand & revenue trends  
 - **Streamlit** – to deploy a web app that presents the ML predictions
+
+  
+## Data Cleaning and Transformation
+We prepared and cleaned the NYC taxi dataset for analysis and machine learning. Steps include:
+
+1. **Data Consolidation**  
+   - Combined **March and April taxi trip data** into a single dataset.  
+   - Merged **weather data** (temperature) and **taxi zone lookup data** for additional context.  
+
+2. **Data Cleaning**  
+   - Checked for and removed **null values** and **duplicate records**.  
+   - Ensured **valid pickup and dropoff locations** (`PULocationID` and `DOLocationID`).  
+
+3. **Outlier Handling**  
+   - Applied **two-pass percentile filtering** on key variables (`fare_amount`, `tip_amount`, `total_amount`, `trip_duration`, `temperature`, `trip_distance`) to remove extreme values:  
+     - **First pass:** Filtered values outside the **1st and 99th percentiles** to remove obvious errors such as negative values, really low or extreme values, and 0's.  
+     - **Second pass:** Further filtered remaining values using percentiles to remove possible but extreme outliers such as trip distance that are really high with huge fare, tip, and total.  
+   - The cleaned dataset was saved as a **new table**, ready for analysis and ML modeling.  
+
+This cleaning and transformation ensures a **high-quality dataset** with realistic and reliable values for downstream EDA, visualization, and predictive modeling.
 
 ## Exploratory Data Analysis (EDA)
 
@@ -156,24 +176,6 @@ We plotted weather features (temperature, cloud cover, windspeed, precipitation)
 
 > **Takeaway:** Weather effects appear **complex and context-dependent**. Standalone weather features may not predict demand well, but interactions with **location and time** likely hold explanatory power.  
 
-## 🔄 ETL (Extract, Transform, Load) Process
-The ETL pipeline prepares and cleans the NYC taxi dataset for analysis and machine learning. Steps include:
-
-1. **Data Consolidation**  
-   - Combined **March and April taxi trip data** into a single dataset.  
-   - Merged **weather data** (temperature) and **taxi zone lookup data** for additional context.  
-
-2. **Data Cleaning**  
-   - Checked for and removed **null values** and **duplicate records**.  
-   - Ensured **valid pickup and dropoff locations** (`PULocationID` and `DOLocationID`).  
-
-3. **Outlier Handling**  
-   - Applied **two-pass percentile filtering** on key variables (`fare_amount`, `tip_amount`, `total_amount`, `trip_duration`, `temperature`, `trip_distance`) to remove extreme values:  
-     - **First pass:** Filtered values outside the **1st and 99th percentiles** to remove obvious errors such as negative values, really low or extreme values, and 0's.  
-     - **Second pass:** Further filtered remaining values using percentiles to remove possible but extreme outliers such as trip distance that are really high with huge fare, tip, and total.  
-   - The cleaned dataset was saved as a **new table**, ready for analysis and ML modeling.  
-
-This ETL process ensures a **high-quality dataset** with realistic and reliable values for downstream EDA, visualization, and predictive modeling.
 
 ## 🤖 Machine Learning
 
